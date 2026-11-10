@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Moon Shelf Generator – Free Laser Cut Crescent Shelf SVG</title>
+<meta name="description" content="Free laser cut crescent moon shelf generator. Set diameter, material thickness, shelf depth and rim width, preview in 3D, and download a cut-ready SVG in inches or mm.">
+<link rel="canonical" href="https://moon-shelf-generator.pages.dev/">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Moon Shelf Generator – Free Laser Cut Crescent Shelf SVG">
+<meta property="og:description" content="Free laser cut crescent moon shelf generator. Set diameter, material thickness, shelf depth and rim width, preview in 3D, and download a cut-ready SVG in inches or mm.">
+<meta property="og:url" content="https://moon-shelf-generator.pages.dev/">
+<meta property="og:image" content="https://moon-shelf-generator.pages.dev/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="Site guide for AI agents">
+<meta name="theme-color" content="#222222">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill-rule='evenodd' fill='%2300a2ff' d='M32 4a28 28 0 1 0 0 56a28 28 0 1 0 0-56zM44 14a18 18 0 1 1 0 36a18 18 0 1 1 0-36z'/%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Moon Shelf Generator", "url": "https://moon-shelf-generator.pages.dev/", "applicationCategory": "DesignApplication", "operatingSystem": "Any (web browser)", "image": "https://moon-shelf-generator.pages.dev/preview.png", "description": "Free laser cut crescent moon shelf generator. Set diameter, material thickness, shelf depth and rim width, preview in 3D, and download a cut-ready SVG in inches or mm.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is the moon shelf generator free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. No sign-up and no cost. Set your sizes and download the SVG."}}, {"@type": "Question", "name": "What material thickness should I enter?", "acceptedAnswer": {"@type": "Answer", "text": "Measure your actual sheet. Plywood sold as 1/4 inch or 6 mm is often thinner than its label, and the tabs and slots only fit if this number is right."}}, {"@type": "Question", "name": "Why does the rim width change when I raise the thickness?", "acceptedAnswer": {"@type": "Answer", "text": "The slots are cut through the rim. If the sheet were as thick as the rim there would be no wood left beside the slot, so the rim is kept at least 1/8 in wider than the sheet."}}, {"@type": "Question", "name": "What software opens the SVG?", "acceptedAnswer": {"@type": "Answer", "text": "LightBurn, Inkscape, Glowforge, xTool Creative Space, LaserGRBL, Illustrator and most CNC CAM programs."}}]}</script>
+<style>
+/* layout (same as Paint Holder): dark tool nav, form column left, 3D preview right, 2D cut sheet peeking below the fold */
+:root{--blue:#00a2ff;--blue-d:#0090e0;--blue-l:#72cbff;--bg:#ededed;--ink:#222;--mute:#666;--card:#f6f6f6;--line:#d7d7d7;--err:#cc2200}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;color-scheme:light}
+#tool-nav{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;padding:8px 16px;background:#222;font:14px/1.4 Arial,Helvetica,sans-serif;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#tool-nav a{color:#ddd;text-decoration:none}#tool-nav span{color:#fff;font-weight:bold}
+.container{display:flex;height:calc(100vh - 100px);min-height:560px;width:100%}
+.form-container{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:1.4rem;padding:2rem 3rem;overflow-y:auto;min-width:0;padding-left:max(3rem,env(safe-area-inset-left,0px))}
+.title-row{display:grid;grid-template-columns:1fr auto 1fr;width:100%;align-items:center}
+.form-title{grid-column:2;justify-self:center;text-align:center;font-size:2rem}
+.switch{grid-column:3;justify-self:end}
+.switch-label{display:inline-block;width:60px;height:30px;background:var(--blue);border-radius:35px;position:relative;cursor:pointer}
+.switch-label::before{position:absolute;content:"IN";display:inline-flex;width:25px;height:25px;border-radius:50%;background:var(--blue-l);color:#fff;font-size:.75rem;font-weight:bold;justify-content:center;align-items:center;top:50%;transform:translate(0,-50%);left:2px;pointer-events:none;transition:transform .3s ease-in-out}
+.type-checkbox:checked+.switch-label::before{transform:translate(calc(100% + 6px),-50%);content:"MM"}
+.type-checkbox:focus-visible+.switch-label{outline:2px solid var(--ink);outline-offset:2px}
+.site-tagline{width:100%;margin-top:-.6rem;font-size:.95rem;line-height:1.4;color:#444;text-align:center}
+.part-selector{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center}
+.part-btn{padding:.3rem .7rem;font-size:.78rem;font-weight:bold;border:1.5px solid #aaa;border-radius:12px;background:#fff;cursor:pointer;color:#444;transition:all .15s}
+.part-btn:hover{border-color:var(--blue);color:var(--blue)}
+.part-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.form{width:100%;display:flex;flex-direction:column;gap:1.2rem}
+.field-container{display:flex;justify-content:center;align-items:center}
+.field-container label{text-align:center;font-size:1.2rem;min-width:200px}
+.field-container label small{display:block;font-size:.7rem;color:var(--mute);font-family:ui-monospace,Menlo,monospace}
+.input-field{border-radius:3px;border:1px solid #222;outline:none;width:140px;max-width:200px;padding:.3rem;font-size:1rem;background:#fff;color:#222}
+.input-field:focus{border-color:var(--blue)}
+.units{font-size:.85rem;color:var(--mute);margin-left:4px}
+.note-msg{display:none;font-size:.85rem;color:#8a5a00;background:#fff7e6;border:1px solid #ffe0a3;border-radius:6px;padding:8px 12px;line-height:1.4}
+.error-msg{display:none;font-size:.85rem;color:var(--err);background:#fff0ee;border:1px solid #ffcccc;border-radius:6px;padding:8px 12px;line-height:1.4}
+.submit-button{align-self:center;padding:.6rem 1.4rem;font-size:.9rem;font-weight:bold;background:var(--blue);border:none;border-radius:20px;color:#fff;cursor:pointer;transition:background .15s}
+.submit-button:hover{background:var(--blue-d)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #222;outline-offset:2px}
+.preset-section{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:.8rem;display:flex;flex-direction:column;gap:.6rem}
+.preset-section h2{font-size:1rem}.preset-section p{font-size:.78rem;color:#585858}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{border:1px solid #bfbfbf;background:#fff;border-radius:7px;padding:.4rem .6rem;font-size:.72rem;font-weight:bold;cursor:pointer;color:#2a2a2a}
+.chip:hover,.chip.active{border-color:var(--blue);background:#eef8ff}
+.learn-more{align-self:center;color:#0077bb;font-size:.9rem}
+.canvas-container{flex:2;position:relative;overflow:hidden;min-width:0}
+.canvas-tabs{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:inline-flex;gap:.3rem;z-index:6;padding:.25rem;border-radius:999px;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.13)}
+.canvas-tab{border:none;border-radius:999px;background:transparent;color:#2d2d2d;padding:.35rem .7rem;font-size:.72rem;font-weight:bold;cursor:pointer;text-decoration:none;display:inline-block}
+.canvas-tab.active{background:var(--blue);color:#fff}
+#c3d{width:100%;height:100%;display:block}
+.affiliate-strip{position:absolute;left:10px;right:10px;height:34px;border:1px solid rgba(0,0,0,.14);border-radius:10px;overflow:hidden;background:rgba(255,255,255,.92);z-index:3}
+.affiliate-strip.top{top:48px}.affiliate-strip.bottom{bottom:10px}
+.affiliate-track{height:100%;display:flex;width:max-content;align-items:center;animation:aff 34s linear infinite}
+.affiliate-strip.bottom .affiliate-track{animation-direction:reverse}
+.affiliate-strip:hover .affiliate-track{animation-play-state:paused}
+.lane{display:flex;align-items:center;gap:.45rem;padding-right:.45rem}
+.affiliate-chip{display:inline-flex;align-items:center;text-decoration:none;color:#0f3f5e;font-size:.66rem;font-weight:bold;padding:.36rem .52rem;border-radius:999px;border:1px solid #b9d3e3;background:#f1f9ff;white-space:nowrap}
+.affiliate-chip:hover{border-color:var(--blue);color:#005b94}
+.affiliate-tag{font-size:.6rem;letter-spacing:.04em;text-transform:uppercase;color:#1f5c7f;padding:.28rem .46rem;border-radius:999px;background:#d9eefb;border:1px solid #b8d8ea;white-space:nowrap}
+.disc-pill{position:absolute;left:50%;top:88px;transform:translateX(-50%);z-index:3;font-size:.62rem;color:rgba(25,25,25,.8);background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.1);border-radius:999px;padding:.2rem .5rem;pointer-events:none;white-space:nowrap}
+.canvas-hint{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);font-size:.72rem;color:rgba(0,0,0,.35);pointer-events:none}
+@keyframes aff{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.affiliate-track{animation:none}}
+
+/* 2D cut sheet section: its top edge shows under the preview so people know to scroll */
+.sheet-section{padding:1.2rem max(3rem,env(safe-area-inset-right,0px)) 2rem max(3rem,env(safe-area-inset-left,0px));background:#fff;border-top:1px solid var(--line);box-shadow:0 -6px 14px rgba(0,0,0,.06)}
+.sheet-head{display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.sheet-head h2{font-size:1.2rem}
+.sheet-head label{font-size:.85rem;color:#444}
+.sheet-head select{font-size:.85rem;padding:.3rem;margin-left:.4rem;border:1px solid #888;border-radius:4px;background:#fff;max-width:100%}
+.sheetwrap{overflow:auto;background:#fbfaf6;border:1px solid var(--line);border-radius:8px;padding:12px}
+.sheetwrap svg{display:block;width:100%;height:auto;min-width:480px}
+.plate-fill{fill:#e9e4d4;fill-rule:evenodd;stroke:#b91c1c;stroke-width:.02}
+.lbl{font:600 .32px Arial,sans-serif;fill:#555}
+.bed{fill:none;stroke:#888;stroke-dasharray:.25 .15;stroke-width:.03}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;color:var(--mute);font-size:.85rem;margin:.6rem 2px 0}.meta b{color:#222}
+.info{max-width:860px;margin:0 auto;padding:3rem 1.5rem 2rem;line-height:1.6;padding-left:max(1.5rem,env(safe-area-inset-left,0px));padding-right:max(1.5rem,env(safe-area-inset-right,0px))}
+.info section{margin-bottom:2.5rem}.info h2{font-size:1.5rem;margin-bottom:.75rem}.info p{margin-bottom:.75rem}
+.info ol,.info ul{padding-left:1.4rem}.info li{margin-bottom:.6rem}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:.92rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid #e0e0e0;white-space:nowrap}th{background:var(--card)}
+.note{font-size:.85rem;color:#666;margin-top:.6rem}
+.products{list-style:none;padding-left:0!important;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.75rem}
+.products li{background:#fff;border:1px solid #d6d6d6;border-radius:8px;padding:.7rem .8rem;margin:0}
+.products a{font-weight:bold;color:#0077bb;display:block;margin-bottom:.2rem}.products span{font-size:.85rem;color:#555}
+details{background:#fff;border:1px solid #d6d6d6;border-radius:8px;padding:.7rem .9rem;margin-bottom:.6rem}summary{font-weight:bold;cursor:pointer}
+@media (max-width:760px){
+ .container{flex-direction:column;height:auto}
+ .form-container{padding:1.5rem 1rem;overflow:visible}
+ .title-row{display:flex;flex-direction:column;align-items:flex-start;gap:.6rem}
+ .field-container{flex-direction:column;align-items:flex-start;gap:.4rem}
+ .field-container label{min-width:0;font-size:1rem;text-align:left}
+ .input-field{width:100%;max-width:none}
+ .canvas-container{height:75vw;min-height:320px}
+ .sheet-section{padding-inline:1rem}
+ .affiliate-strip{left:6px;right:6px;height:30px}.disc-pill{top:82px}
+}
+</style>
+</head>
+<body>
+<nav id="tool-nav" aria-label="More free maker tools">
+  <a href="https://laser-cnc-tools.pages.dev/">All free tools</a>
+  <a href="https://bin-sizing-tool.pages.dev/">Bin generator</a>
+  <a href="https://paint-holder-sizing-tool.pages.dev/">Paint holder generator</a>
+  <span aria-current="page">Moon shelf generator</span>
+</nav>
+
+<main class="container">
+  <div class="form-container">
+    <div class="title-row">
+      <h1 class="form-title">Moon Shelf</h1>
+      <div class="switch">
+        <input type="checkbox" id="type" class="type-checkbox" hidden>
+        <label for="type" class="switch-label" aria-label="Switch units between inches and millimeters" title="Switch units: inches / mm"> </label>
+      </div>
+    </div>
+    <p class="site-tagline">Free laser cut crescent moon shelf generator. Set your size and material, preview it in 3D, and download a cut-ready SVG.</p>
+
+    <div style="width:100%">
+      <p style="font-size:.8rem;color:#666;margin-bottom:.4rem;text-align:center">View parts (multi-select):</p>
+      <div class="part-selector" id="parts-sel"></div>
+    </div>
+
+    <form class="form" id="form" novalidate>
+      <div class="field-container"><label for="f-d">Diameter<small>d</small></label><span><input type="number" id="f-d" class="input-field" step="any" min="0" inputmode="decimal"><span class="units" data-u></span></span></div>
+      <div class="field-container"><label for="f-mt">Material Thickness<small>mt</small></label><span><input type="number" id="f-mt" class="input-field" step="any" min="0" inputmode="decimal"><span class="units" data-u></span></span></div>
+      <div class="field-container"><label for="f-st">Shelf Thickness<small>st</small></label><span><input type="number" id="f-st" class="input-field" step="any" min="0" inputmode="decimal"><span class="units" data-u></span></span></div>
+      <div class="field-container"><label for="f-rw">Rim Width<small>rw</small></label><span><input type="number" id="f-rw" class="input-field" step="any" min="0" inputmode="decimal"><span class="units" data-u></span></span></div>
+      <p class="note-msg" id="note-msg" role="status"></p>
+      <p class="error-msg" id="error-msg" role="alert"></p>
+      <button type="submit" class="submit-button" id="dl">Download SVG</button>
+      <p class="note" id="dlmsg" role="status" style="text-align:center;margin:0"></p>
+    </form>
+
+    <section class="preset-section" aria-label="Common sizes">
+      <div><h2>Common Materials</h2><p>Tap to fill in the material thickness. Always check your actual sheet with calipers.</p></div>
+      <div class="chips" id="mat-chips"></div>
+      <div><h2>Common Sizes</h2><p>Quick starting diameters.</p></div>
+      <div class="chips" id="size-chips"></div>
+    </section>
+    <a class="learn-more" href="#how-it-works">How it works, parts &amp; tips ↓</a>
+  </div>
+
+  <div class="canvas-container">
+    <div class="canvas-tabs">
+      <button type="button" class="canvas-tab active">3D Preview</button>
+      <a class="canvas-tab" href="#sheet">2D Cut Sheet ↓</a>
+    </div>
+    <div class="affiliate-strip top" aria-label="Sponsored affiliate links"><div class="affiliate-track" id="aff-top"></div></div>
+    <canvas id="c3d" role="img" aria-label="Interactive 3D preview of the moon shelf. Drag to rotate, scroll to zoom."></canvas>
+    <div class="affiliate-strip bottom" aria-label="Sponsored affiliate links"><div class="affiliate-track" id="aff-bot"></div></div>
+    <p class="disc-pill">As an Amazon Associate I earn from qualifying purchases.</p>
+    <div class="canvas-hint">Drag to rotate · Scroll to zoom</div>
+  </div>
+</main>
+
+<section class="sheet-section" id="sheet" aria-label="2D cut sheet">
+  <div class="sheet-head">
+    <h2>2D Cut Sheet</h2>
+    <label>Laser bed <select id="bed" aria-label="Laser bed size"></select></label>
+  </div>
+  <div class="sheetwrap"><svg id="sheet-svg" role="img" aria-label="Laser cut layout of all seven parts"></svg></div>
+  <div class="meta" id="meta"></div>
+</section>
+
+<article class="info" id="how-it-works">
+  <section>
+    <h2>Build a custom crescent moon shelf on your laser cutter</h2>
+    <p>This generator makes the flat cut pattern for a layered crescent moon display shelf: a back and a front panel with matching slots, plus five shelves that lock through both panels. Set the diameter, the thickness of your sheet, the shelf depth and the rim width, and download one SVG with every part. It runs in your browser with no sign-up.</p>
+  </section>
+  <section>
+    <h2>How it works</h2>
+    <ol>
+      <li><strong>Set your material.</strong> Measure your sheet and type it into Material Thickness. The rim width always stays above it, so the slots never cut through the edge.</li>
+      <li><strong>Choose the size.</strong> Diameter sets the moon. Shelf Thickness sets how deep the shelves are.</li>
+      <li><strong>Check the 3D preview.</strong> Use the part buttons to look at one panel or all of them. Scroll down to see the flat cut sheet.</li>
+      <li><strong>Download and cut.</strong> The SVG is saved at real size in the units you picked. Open it in LightBurn, Glowforge, xTool or Inkscape.</li>
+    </ol>
+  </section>
+  <section>
+    <h2>Parts list</h2>
+    <div class="table-wrap"><table id="parts"></table></div>
+    <p class="note">Shelf sizes include the end tabs.</p>
+  </section>
+  <section id="materials">
+    <h2>Materials &amp; tools for building your shelf</h2>
+    <ul class="products" id="shop"></ul>
+    <p class="note">As an Amazon Associate I earn from qualifying purchases. Links are affiliate links and cost you nothing extra.</p>
+  </section>
+  <section>
+    <h2>Frequently asked questions</h2>
+    <details><summary>Is the moon shelf generator free?</summary><p>Yes. No sign-up and no cost. Set your sizes and download the SVG.</p></details>
+    <details><summary>What material thickness should I enter?</summary><p>Measure your actual sheet. Plywood sold as 1/4 inch or 6 mm is often thinner than its label, and the tabs and slots only fit if this number is right.</p></details>
+    <details><summary>Why does the rim width change when I raise the thickness?</summary><p>The slots are cut through the rim. If the sheet were as thick as the rim there would be no wood left beside the slot, so the rim is kept at least 1/8 in wider than the sheet.</p></details>
+    <details><summary>What software opens the SVG?</summary><p>LightBurn, Inkscape, Glowforge, xTool Creative Space, LaserGRBL, Illustrator and most CNC CAM programs.</p></details>
+  </section>
+  <p><a href="#" onclick="window.scrollTo(0,0);return false">Back to the generator ↑</a></p>
+</article>
+
+<footer style="text-align:center;padding:1.5rem 1rem 2.5rem;font-size:.8rem;color:#666">Free maker tools · <a href="https://laser-cnc-tools.pages.dev/" style="color:#0077bb">See all generators</a> · As an Amazon Associate I earn from qualifying purchases.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+/* Moon Shelf geometry engine
+ * All lengths are inches. Plate coordinates are relative to the centre of the big circle,
+ * x to the right, y DOWN (SVG convention), moon cut-out on the right.
+ * The Front plate is the mirror image of the Back (mirrored in x when it is placed on the sheet).
+ *
+ * Parameters (same names as the Fusion 360 model):
+ *   d   main diameter            mt  material thickness
+ *   st  inner shelf thickness    rw  rim width (every old "0.5 in" in the model)
+ *   t = st + mt (shelf depth)    moon circle: diameter 0.6 d  (the model's d21)
+ */
+(function (root) {
+  'use strict';
+  var TAU = Math.PI * 2;
+  function mod(a, m) { return ((a % m) + m) % m; }
+
+  /* ---------- tiny path builder: lines + circular arcs ---------- */
+  function Path(cmds) { this.cmds = cmds || []; this.x = 0; this.y = 0; }
+  Path.prototype.M = function (x, y) { this.cmds.push({ c: 'M', x: x, y: y }); this.x = x; this.y = y; return this; };
+  Path.prototype.L = function (x, y) { this.cmds.push({ c: 'L', x: x, y: y }); this.x = x; this.y = y; return this; };
+  // arc about (ox,oy) from the current point to (x1,y1); dir +1 = increasing angle (clockwise on screen), -1 = decreasing
+  Path.prototype.arcTo = function (ox, oy, r, x1, y1, dir) {
+    var a0 = Math.atan2(this.y - oy, this.x - ox), a1 = Math.atan2(y1 - oy, x1 - ox);
+    var delta = dir > 0 ? mod(a1 - a0, TAU) : -mod(a0 - a1, TAU);
+    this.cmds.push({ c: 'A', ox: ox, oy: oy, r: r, delta: delta, x: x1, y: y1 });
+    this.x = x1; this.y = y1; return this;
+  };
+  Path.prototype.Z = function () { this.cmds.push({ c: 'Z' }); return this; };
+  // affine copy: x' = s*mx*x + dx, y' = s*my*y + dy  (mx,my are +1/-1 mirrors)
+  Path.prototype.map = function (mx, my, s, dx, dy) {
+    var flip = (mx * my) < 0, out = new Path();
+    this.cmds.forEach(function (k) {
+      if (k.c === 'Z') { out.cmds.push({ c: 'Z' }); return; }
+      var n = { c: k.c, x: s * mx * k.x + dx, y: s * my * k.y + dy };
+      if (k.c === 'A') { n.ox = s * mx * k.ox + dx; n.oy = s * my * k.oy + dy; n.r = k.r * s; n.delta = flip ? -k.delta : k.delta; }
+      out.cmds.push(n);
+    });
+    return out;
+  };
+  Path.prototype.toD = function (scale) {
+    var s = '', k = scale || 1;
+    function f(v) { return (Math.round(v * k * 10000) / 10000).toString(); }
+    this.cmds.forEach(function (c) {
+      if (c.c === 'M') s += 'M' + f(c.x) + ' ' + f(c.y) + ' ';
+      else if (c.c === 'L') s += 'L' + f(c.x) + ' ' + f(c.y) + ' ';
+      else if (c.c === 'A') s += 'A' + f(c.r) + ' ' + f(c.r) + ' 0 ' + (Math.abs(c.delta) > Math.PI ? 1 : 0) + ' ' + (c.delta > 0 ? 1 : 0) + ' ' + f(c.x) + ' ' + f(c.y) + ' ';
+      else s += 'Z ';
+    });
+    return s.trim();
+  };
+  // polyline samples (used for bounding boxes and for the tests)
+  Path.prototype.sample = function (step) {
+    var pts = [], cx = 0, cy = 0, sx = 0, sy = 0;
+    this.cmds.forEach(function (c) {
+      if (c.c === 'M') { cx = sx = c.x; cy = sy = c.y; pts.push([cx, cy]); }
+      else if (c.c === 'L') { cx = c.x; cy = c.y; pts.push([cx, cy]); }
+      else if (c.c === 'A') {
+        var a0 = Math.atan2(cy - c.oy, cx - c.ox), n = Math.max(2, Math.ceil(Math.abs(c.delta) * c.r / (step || 0.02)));
+        for (var i = 1; i <= n; i++) { var a = a0 + c.delta * i / n; pts.push([c.ox + c.r * Math.cos(a), c.oy + c.r * Math.sin(a)]); }
+        cx = c.x; cy = c.y; pts[pts.length - 1] = [cx, cy];
+      } else { pts.push([sx, sy]); cx = sx; cy = sy; }
+    });
+    return pts;
+  };
+  Path.prototype.bbox = function () {
+    var p = this.sample(0.01), x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    p.forEach(function (q) { if (q[0] < x0) x0 = q[0]; if (q[0] > x1) x1 = q[0]; if (q[1] < y0) y0 = q[1]; if (q[1] > y1) y1 = q[1]; });
+    return { x0: x0, y0: y0, x1: x1, y1: y1 };
+  };
+
+  function rectPath(x0, y0, x1, y1) { return new Path().M(x0, y0).L(x1, y0).L(x1, y1).L(x0, y1).Z(); }
+
+  /* flat shelf with an end tab on each side */
+  function shelfPath(Lb, tb, t, mt) {
+    var h = t / 2, th = t / 2 - mt, a = Lb / 2;
+    return new Path().M(-a, -h).L(a, -h).L(a, -th).L(a + tb, -th).L(a + tb, th).L(a, th).L(a, h)
+      .L(-a, h).L(-a, th).L(-a - tb, th).L(-a - tb, -th).L(-a, -th).Z();
+  }
+
+  /* ---------- main geometry ---------- */
+  function build(p) {
+    var d = p.d, st = p.st, mt = p.mt, rw = p.rw;
+    var R = d / 2, rs = 0.3 * d, t = st + mt;
+    var warnings = [];
+
+    // layout constants of the design
+    var tabM = mt;                 // tab length on the three larger shelves (Fusion: d52/d56/d59, relinked to mt)
+    var tabS = rw;                 // tab length on the two small shelves
+    var yA = d / 5 + rw;           // centre line of the upper / lower shelf
+    var yC = R - rw / 2;           // centre line of the top / bottom shelf (sits in the rim)
+    var yt = R + 1 - rw / 2, yb = R + 1 + rw / 2;   // top and bottom edge of the foot
+
+    // moon / disc intersection
+    var xi = R * R / (2 * rs), yi = Math.sqrt(Math.max(0, R * R - xi * xi));
+
+    // foot blend: circle tangent to the big circle and to the foot top at its corner
+    var r = (rs * rs + yt * yt - R * R) / (2 * (yt + R));
+    var Fx = rs, Fy = yt - r, D = R + r;
+    var Pr = [Fx * R / D, Fy * R / D];                         // tangent point on the disc (right foot)
+    var rho = r + rw, dxIn = Math.sqrt(Math.max(0, rho * rho - r * r));
+    var a = (R * R - rho * rho + D * D) / (2 * D), hh = Math.sqrt(Math.max(0, R * R - a * a));
+    var ux = Fx / D, uy = Fy / D;
+    var Qr = [a * ux - hh * uy, a * uy + hh * ux];             // where the hole meets the disc (right)
+
+    /* outline */
+    var outer = new Path().M(xi, -yi)
+      .arcTo(0, 0, R, -Pr[0], Pr[1], -1)
+      .arcTo(-Fx, Fy, r, -rs, yt, +1)
+      .L(-rs, yb).L(rs, yb).L(rs, yt)
+      .arcTo(Fx, Fy, r, Pr[0], Pr[1], +1)
+      .arcTo(0, 0, R, xi, yi, -1)
+      .arcTo(rs, 0, rs, xi, -yi, +1).Z();
+
+    /* window under the disc, between the two legs of the foot */
+    var holeOk = hh > 0 && dxIn < rs;
+    var foot = null;
+    if (holeOk) {
+      foot = new Path().M(-rs + dxIn, yt).L(rs - dxIn, yt)
+        .arcTo(Fx, Fy, rho, Qr[0], Qr[1], +1)
+        .arcTo(0, 0, R, -Qr[0], Qr[1], +1)
+        .arcTo(-Fx, Fy, rho, -rs + dxIn, yt, +1).Z();
+    } else warnings.push('The foot window is too small to cut at this size.');
+
+    /* shelf slots */
+    function slotA(yc) {
+      var yo = yc + mt / 2, yin = Math.max(0, yc - mt / 2);
+      var x0 = -Math.sqrt(R * R - yo * yo) + tabM, x1 = rs - Math.sqrt(rs * rs - yin * yin) - tabM;
+      return { x0: x0, x1: x1, yc: yc };
+    }
+    var sB = slotA(0), sA = slotA(yA);
+    var halfC = Math.sqrt(R * R - Math.pow(yC + mt / 2, 2)) - tabS;
+    var sC = { x0: -halfC, x1: halfC, yc: yC };
+    [sB, sA, sC].forEach(function (s) { if (!(s.x1 > s.x0)) warnings.push('A shelf slot has no length at this size.'); });
+
+    function slots() {
+      var out = [];
+      [[sC, -1], [sA, -1], [sB, 1], [sA, 1], [sC, 1]].forEach(function (e) {
+        var s = e[0], sg = e[1];
+        out.push(rectPath(s.x0, sg * s.yc - mt / 2, s.x1, sg * s.yc + mt / 2));
+      });
+      return out;
+    }
+
+    /* compartment windows of the Front */
+    var r1 = R - rw, r2 = rs + rw;
+    function xl(y) { return -Math.sqrt(r1 * r1 - y * y); }
+    function xr(y) { return rs - Math.sqrt(r2 * r2 - y * y); }
+    function winMid(y1, y2) {
+      return new Path().M(xl(y1), y1).L(xr(y1), y1).arcTo(rs, 0, r2, xr(y2), y2, -1).L(xl(y2), y2).arcTo(0, 0, r1, xl(y1), y1, +1).Z();
+    }
+    var xs = (r1 * r1 - r2 * r2 + rs * rs) / (2 * rs), ys = Math.sqrt(Math.max(0, r1 * r1 - xs * xs));
+    function winTop(y1) {
+      return new Path().M(xl(y1), y1).L(xr(y1), y1).arcTo(rs, 0, r2, xs, ys, -1).arcTo(0, 0, r1, xl(y1), y1, +1).Z();
+    }
+    var windows = [];
+    var yMidLo = rw / 2, yMidHi = yA - rw / 2, yTop = yA + rw / 2;
+    var midOk = yMidHi > yMidLo + 0.05 && xl(yMidHi) < xr(yMidHi) && xl(yMidLo) < xr(yMidLo);
+    var topOk = yTop < ys - 0.05 && xl(yTop) < xr(yTop);
+    if (midOk) { windows.push(winMid(yMidLo, yMidHi).map(1, -1, 1, 0, 0)); windows.push(winMid(yMidLo, yMidHi)); }
+    else warnings.push('The shelf compartments are too small at this size.');
+    if (topOk) { windows.push(winTop(yTop).map(1, -1, 1, 0, 0)); windows.push(winTop(yTop)); }
+
+    /* shelves (flat, centred) */
+    function shelf(name, id, s, tb, sg) {
+      var Lb = s.x1 - s.x0;
+      return { id: id, name: name, kind: 'shelf', outer: shelfPath(Math.max(Lb, 0.01), tb, t, mt), holes: [], mirror: false, body: Lb, tab: tb, slot: { xc: (s.x0 + s.x1) / 2, y: sg * s.yc } };
+    }
+    var parts = [
+      { id: 'back', name: 'Back', kind: 'plate', outer: outer, holes: (foot ? [foot] : []).concat(slots()), mirror: false },
+      { id: 'front', name: 'Front', kind: 'plate', outer: outer, holes: (foot ? [foot] : []).concat(windows, slots()), mirror: false },
+      shelf('Middle Shelf', 'mid', sB, tabM, 1),
+      shelf('Top Middle Shelf', 'upper', sA, tabM, -1),
+      shelf('Bottom Middle Shelf', 'lower', sA, tabM, 1),
+      shelf('Top Shelf', 'top', sC, tabS, -1),
+      shelf('Bottom Shelf', 'bottom', sC, tabS, 1)
+    ];
+    parts.forEach(function (q) {
+      var m = q.mirror ? -1 : 1, b = q.outer.map(m, 1, 1, 0, 0).bbox();
+      q.bbox = b; q.w = b.x1 - b.x0; q.h = b.y1 - b.y0;
+    });
+    return { parts: parts, warnings: warnings, R: R, rs: rs, t: t, depth: t, foot: { r: r, yt: yt, yb: yb } };
+  }
+
+  /* ---------- sheet layout ---------- */
+  function layout(parts, opt) {
+    opt = opt || {};
+    var gap = opt.gap || 0.55, margin = opt.margin || 0.25;
+    var order = parts.slice();
+    var plates = order.filter(function (q) { return q.kind === 'plate'; });
+    var shelves = order.filter(function (q) { return q.kind === 'shelf'; }).sort(function (a, b) { return b.w - a.w; });
+    var autoW = plates.reduce(function (s, q) { return s + q.w; }, 0) + gap * (plates.length - 1);
+    var maxW = opt.bedW ? opt.bedW - 2 * margin : autoW;
+    var rows = [], cur = null;
+    plates.concat(shelves).forEach(function (q) {
+      if (!cur || cur.w + gap + q.w > maxW + 1e-9) { cur = { items: [], w: 0, h: 0 }; rows.push(cur); }
+      cur.w += (cur.items.length ? gap : 0) + q.w; cur.h = Math.max(cur.h, q.h); cur.items.push(q);
+    });
+    var y = margin, placed = [], W = 0;
+    rows.forEach(function (row) {
+      var x = margin;
+      row.items.forEach(function (q) { placed.push({ part: q, x: x, y: y }); x += q.w + gap; });
+      W = Math.max(W, margin + row.w + margin); y += row.h + gap;
+    });
+    var H = y - gap + margin;
+    return { placed: placed, W: W, H: H };
+  }
+
+  /* d-string of every loop of a placed part (single path, even-odd fill makes the holes) */
+  function placedD(pl, scale) {
+    var q = pl.part, m = q.mirror ? -1 : 1, b = q.bbox;
+    var dx = pl.x - b.x0, dy = pl.y - b.y0;
+    var d = q.outer.map(m, 1, 1, dx, dy).toD(scale);
+    q.holes.forEach(function (h) { d += ' ' + h.map(m, 1, 1, dx, dy).toD(scale); });
+    return { d: d, dx: dx, dy: dy };
+  }
+
+  /* the rule that keeps the slots from eating the rim */
+  var MIN_WALL = 1 / 16;                       // inches left on each side of a slot
+  function minRim(mt) { return mt + 2 * MIN_WALL; }
+
+  root.MoonShelf = { build: build, layout: layout, placedD: placedD, Path: Path, minRim: minRim, MIN_WALL: MIN_WALL };
+  if (typeof module !== 'undefined') module.exports = root.MoonShelf;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function(){
+var IN=25.4, TAG='threetoedbear-20', GAP=0.125;
+var S={d:11,mt:0.25,st:2,rw:0.5}, mm=false, bedId='auto';
+var partsShown={all:true};
+var $=function(i){return document.getElementById(i)};
+var fields=['d','mt','st','rw'];
+var beds=[{id:'auto',label:'Fit one row (no limit)',w:0,h:0},{id:'gf',label:'Glowforge 19.5 x 11 in',w:19.5,h:11},{id:'12x24',label:'12 x 24 in',w:24,h:12},{id:'24x18',label:'24 x 18 in',w:24,h:18},{id:'36x24',label:'36 x 24 in',w:36,h:24}];
+var mats=[['1/8 in',0.125],['3 mm',3/IN],['3/16 in',0.1875],['1/4 in',0.25],['6 mm',6/IN],['3/8 in',0.375]];
+var sizes=[['Small 8 in',8],['Medium 11 in',11],['Large 16 in',16],['XL 24 in',24]];
+var shop=[
+ ['Baltic birch plywood','Strong, flat and laser-friendly. The go-to for layered shelves.','baltic birch plywood sheets laser'],
+ ['Digital calipers','Measure your real sheet thickness and type it into mt.','digital calipers'],
+ ['Wood glue','A bead on each tab makes the shelves permanent.','titebond wood glue'],
+ ['Laser masking tape','Keeps smoke marks off the faces.','laser masking tape transfer'],
+ ['Sandpaper assortment','Clean up edges after cutting.','sandpaper assortment fine grit'],
+ ['Wood stain or paint','Finish the crescent in your color.','wood stain set']];
+function aff(q){return 'https://www.amazon.com/s?k='+encodeURIComponent(q)+'&tag='+TAG}
+function disp(v){return mm?Math.round(v*IN*100)/100:Math.round(v*10000)/10000}
+function fmt(v){return mm?(Math.round(v*IN*10)/10)+' mm':(Math.round(v*1000)/1000)+' in'}
+function bedObj(){return beds.filter(function(b){return b.id===bedId})[0]}
+
+/* ---------- form ---------- */
+function fillFields(skip){
+  fields.forEach(function(k){var e=$('f-'+k); if(e!==skip) e.value=disp(S[k])});
+  [].forEach.call(document.querySelectorAll('[data-u]'),function(e){e.textContent='('+(mm?'mm':'in')+')'});
+  document.querySelectorAll('#mat-chips .chip').forEach(function(c,i){c.classList.toggle('active',Math.abs(S.mt-mats[i][1])<1e-4)});
+  document.querySelectorAll('#size-chips .chip').forEach(function(c,i){c.classList.toggle('active',Math.abs(S.d-sizes[i][1])<1e-4)});
+}
+function applyRule(changed){
+  var note='';
+  if(S.mt>S.rw-GAP){
+    if(changed==='rw'){ S.mt=Math.max(0.001,S.rw-GAP); if(S.mt>S.rw-GAP){S.rw=S.mt+GAP;} note='Material thickness was lowered to '+fmt(S.mt)+' because it must stay at least '+fmt(GAP)+' under the rim width.'; }
+    else { S.rw=S.mt+GAP; note='Rim width was raised to '+fmt(S.rw)+' because it must stay at least '+fmt(GAP)+' above the material thickness.'; }
+  }
+  var n=$('note-msg'); n.textContent=note; n.style.display=note?'block':'none';
+}
+function onField(k){
+  var v=parseFloat($('f-'+k).value);
+  if(!isFinite(v)||v<=0) return;               // wait for a valid number
+  S[k]=mm?v/IN:v; applyRule(k); fillFields($('f-'+k)); update();
+}
+fields.forEach(function(k){var e=$('f-'+k); e.addEventListener('input',function(){onField(k)}); e.addEventListener('change',function(){fillFields()})});
+$('type').addEventListener('change',function(){mm=$('type').checked; $('note-msg').style.display='none'; fillFields(); update()});
+mats.forEach(function(m){var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=m[0];b.onclick=function(){S.mt=m[1];applyRule('mt');fillFields();update()};$('mat-chips').appendChild(b)});
+sizes.forEach(function(m){var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=m[0];b.onclick=function(){S.d=m[1];fillFields();update()};$('size-chips').appendChild(b)});
+beds.forEach(function(b){var o=document.createElement('option');o.value=b.id;o.textContent=b.label;$('bed').appendChild(o)});
+$('bed').onchange=function(){bedId=$('bed').value;update()};
+
+/* part buttons */
+var PARTS=[['back','Back'],['front','Front'],['mid','Middle'],['upper','Top Mid'],['lower','Bottom Mid'],['top','Top'],['bottom','Bottom'],['all','All']];
+PARTS.forEach(function(p){var b=document.createElement('button');b.type='button';b.className='part-btn';b.dataset.part=p[0];b.textContent=p[1];
+  b.onclick=function(){ if(p[0]==='all'){partsShown={all:true}} else {delete partsShown.all; if(partsShown[p[0]]) delete partsShown[p[0]]; else partsShown[p[0]]=true; if(!Object.keys(partsShown).length) partsShown={all:true}}
+    document.querySelectorAll('.part-btn').forEach(function(x){x.classList.toggle('active',!!partsShown[x.dataset.part])}); draw3d()};
+  $('parts-sel').appendChild(b)});
+document.querySelector('[data-part=all]').classList.add('active');
+
+/* shop strips + list */
+function lane(){return '<div class="lane"><span class="affiliate-tag">Sponsored</span>'+shop.map(function(x){return '<a class="affiliate-chip" href="'+aff(x[2])+'" target="_blank" rel="sponsored nofollow noopener">'+x[0]+'</a>'}).join('')+'</div>'}
+$('aff-top').innerHTML=lane()+lane(); $('aff-bot').innerHTML=lane()+lane();
+$('shop').innerHTML=shop.map(function(x){return '<li><a href="'+aff(x[2])+'" target="_blank" rel="sponsored nofollow noopener">'+x[0]+'</a><span>'+x[1]+'</span></li>'}).join('');
+
+/* ---------- 3D ---------- */
+var scene,cam,ren,ctl,grp,threeOK=false;
+try{
+  ren=new THREE.WebGLRenderer({canvas:$('c3d'),antialias:true,alpha:true});
+  scene=new THREE.Scene(); cam=new THREE.PerspectiveCamera(35,1,0.1,500);
+  scene.add(new THREE.AmbientLight(0xffffff,0.75)); var dl=new THREE.DirectionalLight(0xffffff,0.7); dl.position.set(8,12,20); scene.add(dl);
+  var dl2=new THREE.DirectionalLight(0xffffff,0.3); dl2.position.set(-10,-4,-12); scene.add(dl2);
+  ctl=new THREE.OrbitControls(cam,$('c3d')); ctl.enableDamping=true;
+  grp=new THREE.Group(); scene.add(grp); threeOK=true;
+}catch(e){ $('c3d').style.background='#e4e4e4'; }
+var framed=false;
+function size3d(){ if(!threeOK) return; var c=$('c3d').parentNode, w=c.clientWidth,h=c.clientHeight; ren.setPixelRatio(Math.min(2,window.devicePixelRatio||1)); ren.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); }
+window.addEventListener('resize',function(){size3d()});
+function ptsOf(path,mx){return path.map(mx,-1,1,0,0).sample(0.04).map(function(p){return new THREE.Vector2(p[0],p[1])})}
+function mkPlate(q,z,depth,col){
+  var mx=q.mirror?-1:1, sh=new THREE.Shape(ptsOf(q.outer,mx));
+  q.holes.forEach(function(h){sh.holes.push(new THREE.Path(ptsOf(h,mx)))});
+  var g=new THREE.ExtrudeGeometry(sh,{depth:depth,bevelEnabled:false,curveSegments:1});
+  var m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:col,roughness:.8,metalness:0,side:THREE.DoubleSide}));
+  m.position.z=z; var e=new THREE.LineSegments(new THREE.EdgesGeometry(g,40),new THREE.LineBasicMaterial({color:0x6b4a22})); m.add(e); return m;
+}
+function box(w,h,d,x,y,z,col){var m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial({color:col,roughness:.8}));m.position.set(x,y,z);
+  m.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry),new THREE.LineBasicMaterial({color:0x6b4a22})));return m}
+var lastRes=null;
+function draw3d(){
+  if(!threeOK||!lastRes) return;
+  while(grp.children.length){var o=grp.children.pop(); o.traverse(function(n){if(n.geometry)n.geometry.dispose();if(n.material)n.material.dispose()})}
+  var r=lastRes, mt=S.mt, t=r.t, wood=0xd9b98c, wood2=0xc99f6a;
+  r.parts.forEach(function(q){
+    if(!partsShown.all && !partsShown[q.id]) return;
+    if(q.id==='back') grp.add(mkPlate(q,0,mt,wood));
+    else if(q.id==='front') grp.add(mkPlate(q,S.st,mt,wood));
+    else { var m=mkPlate(q,0,mt,wood2); m.rotation.x=Math.PI/2; m.position.set(q.slot.xc,-q.slot.y+mt/2,t/2); grp.add(m); }
+  });
+  if(!framed){ var h=S.d+1.25; ctl.target.set(0,-0.625,t/2); cam.position.set(h*0.45,h*0.2,h*2.7); ctl.update(); framed=true; }
+}
+function loop(){ if(threeOK){ctl.update();ren.render(scene,cam)} requestAnimationFrame(loop) }
+if(threeOK){ size3d(); loop(); if(window.ResizeObserver) new ResizeObserver(size3d).observe($('c3d').parentNode); }
+
+/* ---------- 2D + parts ---------- */
+var cur=null;
+function update(){
+  var r=MoonShelf.build(S), ok=r.parts.every(function(q){return isFinite(q.w)&&isFinite(q.h)&&q.w>0});
+  var err=$('error-msg'), w=r.warnings.slice();
+  if(!ok){ err.textContent='These values do not make a valid shelf. Try a larger diameter or a smaller rim width.'; err.style.display='block'; return }
+  err.textContent=w.join(' '); err.style.display=w.length?'block':'none';
+  lastRes=r; var b=bedObj(), L=MoonShelf.layout(r.parts,{bedW:b.w||0}); cur={r:r,L:L};
+  var vw=b.w?Math.max(L.W,b.w):L.W, vh=b.w?Math.max(L.H,b.h):L.H, g='';
+  if(b.w) g+='<rect class="bed" x="0" y="0" width="'+b.w+'" height="'+b.h+'"/>';
+  L.placed.forEach(function(pl){var o=MoonShelf.placedD(pl,1);
+    g+='<path class="plate-fill" d="'+o.d+'"/><text class="lbl" x="'+(pl.x+pl.part.w/2)+'" y="'+(pl.y+pl.part.h+0.24)+'" text-anchor="middle">'+pl.part.name+'</text>'});
+  var sv=$('sheet-svg'); sv.setAttribute('viewBox','-0.1 -0.1 '+(vw+0.2)+' '+(vh+0.5)); sv.innerHTML=g;
+  var over=b.w&&(L.H>b.h+1e-6||L.placed.some(function(p){return p.part.w>b.w-0.5}));
+  $('meta').innerHTML='<span>Sheet needed <b>'+fmt(L.W)+' x '+fmt(L.H)+'</b></span><span>Shelf depth <b>'+fmt(r.t)+'</b></span><span>Overall height <b>'+fmt(S.d+1.25)+'</b></span>'+(over?'<span style="color:#cc2200">These parts do not fit the '+b.label+' bed.</span>':'');
+  var t='<tr><th>Part</th><th>Width</th><th>Height</th><th>Qty</th></tr>';
+  r.parts.forEach(function(q){t+='<tr><td>'+q.name+'</td><td>'+fmt(q.w)+'</td><td>'+fmt(q.h)+'</td><td>1</td></tr>'}); $('parts').innerHTML=t;
+  draw3d();
+}
+function svgText(){
+  var L=cur.L,k=mm?IN:1,u=mm?'mm':'in',f=function(v){return Math.round(v*1000)/1000},W=L.W*k,H=L.H*k;
+  var s='<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" width="'+f(W)+u+'" height="'+f(H)+u+'" viewBox="0 0 '+f(W)+' '+f(H)+'">\n';
+  s+='<title>Moon Shelf d='+f(S.d*k)+u+' mt='+f(S.mt*k)+u+' st='+f(S.st*k)+u+' rw='+f(S.rw*k)+u+'</title>\n<g fill="none" stroke="#ff0000" stroke-width="'+(mm?0.1:0.004)+'">\n';
+  L.placed.forEach(function(pl){s+='<path id="'+pl.part.id+'" d="'+MoonShelf.placedD(pl,k).d+'"/>\n'});
+  return s+'</g>\n</svg>\n';
+}
+$('form').addEventListener('submit',async function(ev){
+  ev.preventDefault(); if(!cur) return;
+  var data=svgText(), name='moon-shelf-d'+(Math.round(S.d*(mm?IN:1)*100)/100)+(mm?'mm':'in')+'.svg', m=$('dlmsg');
+  try{
+    var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([data],{type:'image/svg+xml'})); a.download=name; document.body.appendChild(a); a.click(); a.remove(); m.textContent='Downloaded '+name+'.';
+  }catch(e){ m.textContent='Saving was cancelled or is not available in this view.'; }
+});
+fillFields(); update();
+})();
+</script>
+</body>
+</html>

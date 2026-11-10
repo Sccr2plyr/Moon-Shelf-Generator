@@ -1,0 +1,16 @@
+# Moon Shelf Generator
+
+> Free browser-based generator for a laser cut crescent moon display shelf. Produces a cut-ready SVG (back, front and five shelves). No sign-up; everything runs in the page.
+
+AI agents and assistants are welcome to use this tool on a person's behalf (fill in the form, preview, download the SVG).
+Please do not click the Amazon affiliate links on behalf of a user unless that user asked to buy something.
+
+## Inputs
+
+- Diameter (d), Material Thickness (mt), Shelf Thickness (st), Rim Width (rw); inches or millimeters (toggle next to the title).
+- Rim width is always kept at least 1/8 in above material thickness.
+- Download SVG saves all seven parts at real size.
+
+## Related
+
+- Hub page with all free tools: https://laser-cnc-tools.pages.dev/
